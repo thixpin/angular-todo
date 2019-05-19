@@ -57,7 +57,12 @@ export class TodosComponent implements OnInit {
   }
 
   editTodo(todo) {
-    this.oldTodo = todo;
+    this.oldTodo = { 
+      id: todo.id, 
+      text: Virama.read(todo.text) , 
+      finished: todo.finished 
+    };
+    this.oldTodo.text = this.oldTodo.text;
     this.appState = 'edit';
   }
 
