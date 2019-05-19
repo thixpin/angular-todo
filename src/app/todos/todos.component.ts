@@ -37,7 +37,7 @@ export class TodosComponent implements OnInit {
   addTodo() {
     var newTodo = {
       id: this.newID,
-      text: this.text,
+      text: Virama.write(this.text),
       finished: false
     }
     console.log(newTodo);
@@ -65,7 +65,7 @@ export class TodosComponent implements OnInit {
   
     for (var i = 0; i < this.todos.length; i++) {
       if (this.todos[i].id == oldTodo.id) {
-        this.todos[i].text = oldTodo.text;
+        this.todos[i].text = Virama.write(oldTodo.text);
       }
     }
     this._todoService.update(oldTodo);
