@@ -10,8 +10,8 @@ import Virama from 'virama-js';
   providers: [TodosService]
 })
 export class TodosComponent implements OnInit {
-  private todos;
-  private text;
+  public todos;
+  public text;
 
 
   oldTodo = { id: 0, text: '', finished: false }
