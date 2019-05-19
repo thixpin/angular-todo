@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TodosService } from "../services/todos.service";
 
+import Virama from 'virama-js';
+
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
