@@ -78,5 +78,16 @@ export class TodosComponent implements OnInit {
     this.appState = 'default';
   }
 
+  checkboxOnChanged(todo) {
+  
+    for (var i = 0; i < this.todos.length; i++) {
+      if (this.todos[i].id == todo.id) {
+        this.todos[i].finished = todo.finished;
+      }
+    }
+    this._todoService.update(todo);
+
+  }
+
 
 }

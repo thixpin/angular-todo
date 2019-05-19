@@ -18,7 +18,7 @@
 
     <li *ngFor="let todo of todos" class="list-group-item">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox"  [(ngModel)]="todo.finished" (change)="updateTodo(todo)" class="custom-control-input" id="{{todo.id}}"  >
+        <input type="checkbox"  [(ngModel)]="todo.finished" (change)="checkboxOnChanged(todo)" class="custom-control-input" id="{{todo.id}}"  >
         <label class="custom-control-label" for="{{todo.id}}">
            <span [ngClass]="{'strikethrough': todo.finished }">
               {{todo.text}} 
