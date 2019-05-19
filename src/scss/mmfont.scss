@@ -1,0 +1,26 @@
+@font-face {
+	font-family: 'mmFont';
+	font-style: normal;
+  	font-weight: 400;
+    src: local('MUA Office'), local('MUAOffice'),
+        url('https://www.mmunicode.org/fonts/web/MUAOffice.woff') format('woff'),
+        url('https://www.mmunicode.org/fonts/web/MUAOffice.ttf') format('truetype');
+	unicode-range: U+1000-109F, U+1700-1702; 
+}
+
+/* Add Myanmar font to font-family 
+*  Please ignore ( html, body, div, textarea) in adding mm font family.
+*/ 
+
+html, body { font-family: inherit; } 
+
+.mm-font, p, button, select, span, a, h1, h2, h3, h4, h5, h6, .site-title, ::placeholder {
+	font-family: mmFont, "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif
+}
+
+pre, code, kbd, tt, var {
+	font-family: mmFont, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; ;
+}
+
+
+
