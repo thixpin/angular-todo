@@ -1,28 +1,31 @@
 <div class="col-lg-12">
-  <div>
-    <label> Add todos</label>
+  <div *ngIf="appState == 'default'">
+    <label><h3>Add todos</h3> </label>
     <form (submit)="addTodo()">
-      <input class="form-control" type="text"  placeholder="Create a to-do list">
+      <input class="form-control" type="text" [(ngModel)]="text" [ngModelOptions]="{standalone: true}"  placeholder="Create a to-do list">
     </form>
   </div>
 
 
-  <div>
-    <label> Edit todos</label>
-    <form (submit)="updateTodo()">
-      <input class="form-control" type="text" >
+  <div *ngIf="appState == 'edit'">
+    <label> <h3>Edit todos</h3></label>
+    <form (submit)="updateTodo(oldTodo)">
+      <input class="form-control" type="text" [(ngModel)]="oldTodo.text" [ngModelOptions]="{standalone: true}">
     </form>
   </div>
 
   <ul class="list-group clearfix pt-5">
 
-    <li  class="list-group-item">
+    <li *ngFor="let todo of todos" class="list-group-item">
       <div class="custom-control custom-checkbox">
-
-        <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-        <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+        <input type="checkbox"  [(ngModel)]="todo.finished" (change)="updateTodo(todo)" class="custom-control-input" id="{{todo.id}}"  >
+        <label class="custom-control-label" for="{{todo.id}}">
+           <span [ngClass]="{'strikethrough': todo.finished }">
+              {{todo.text}} 
+           </span>
+        </label>
         <span class="float-right">
-          <button type="button" (click)="editTodo(todo)"  class="btn btn-primary btn-sm mr-2"><i class="fas fa-edit"></i></button>
+          <button *ngIf="!todo.finished" type="button" (click)="editTodo(todo)"  class="btn btn-primary btn-sm mr-2"><i class="fas fa-edit"></i></button>
           <button type="button" (click)="deleteTodo(todo.id)" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
         </span>
 

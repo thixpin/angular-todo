@@ -68,14 +68,7 @@ export class TodosService {
   }
 
   addTodo(newTodo) {
-    var id = 1;
     var todos = JSON.parse(localStorage.getItem('todos'));
-    for (var i = 0; i < todos.length; i++) {
-      if (todos[i].id >= id) {
-        id = todos[i].id + 1;
-      }
-    }
-    newTodo.id = id;
     todos.push(newTodo);
     localStorage.setItem('todos', JSON.stringify(todos));
   }
