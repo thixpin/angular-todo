@@ -23,4 +23,7 @@ pre, code, kbd, tt, var {
 }
 
 
-
+// Allow Users to type with font as they like
+input[type=text], textarea {
+	font-family: initial;
+}
