@@ -1,12 +1,15 @@
 @font-face {
 	font-family: 'mmFont';
-	font-style: normal;
-  	font-weight: 400;
-    src: local('MUA Office'), local('MUAOffice'),
-        url('https://www.mmunicode.org/fonts/web/MUAOffice.woff') format('woff'),
-        url('https://www.mmunicode.org/fonts/web/MUAOffice.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/ea/khyay/v2/Khyay-Regular.eot);
+  src: url(//fonts.gstatic.com/ea/khyay/v2/Khyay-Regular.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/khyay/v2/Khyay-Regular.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/khyay/v2/Khyay-Regular.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/khyay/v2/Khyay-Regular.ttf) format('truetype');
 	unicode-range: U+1000-109F, U+1700-1702; 
 }
+
 
 /* Add Myanmar font to font-family 
 *  Please ignore ( html, body, div, textarea) in adding mm font family.
