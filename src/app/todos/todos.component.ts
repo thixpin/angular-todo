@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {TodosService } from "../services/todos.service";
+import { Todo } from 'src/app/model/todo.model';
 
 import Virama from 'virama-js';
+import { stringify } from '@angular/core/src/util';
 
 @Component({
   selector: 'app-todos',
@@ -10,83 +12,76 @@ import Virama from 'virama-js';
   providers: [TodosService]
 })
 export class TodosComponent implements OnInit {
-  public todos;
+  todos: Todo[];
   public text;
 
-
-  oldTodo = { id: 0, text: '', finished: false }
+  oldTodo: Todo;
   newID = 1;
   appState = 'default';
   response: string;
 
   constructor(
-    private _todoService: TodosService
+    private todoService: TodosService
   ) { }
 
   ngOnInit() {
-    this.todos = this._todoService.getTodos();
 
-    for (var i = 0; i < this.todos.length; i++) {
-      if (this.todos[i].id >= this.newID) {
-        this.newID = this.todos[i].id + 1;
-      }
-    }
+    this.loadTodos();
  
   }
 
-  addTodo() {
-    var newTodo = {
-      id: this.newID,
-      text: Virama.write(this.text),
-      finished: false
-    }
-    console.log(newTodo);
-    this.todos.push(newTodo);
-    this._todoService.addTodo(newTodo);
-    this.newID +=1 ;
+  loadTodos(){
+    this.todoService.getTodos().subscribe(data => {
+      const todos = data.map(e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data()
+        } as Todo;
+      });
+      this.todos = todos.sort(function(a, b){return b.timeStamp - a.timeStamp});
+      console.log(this.todos);
+    });
   }
 
-  deleteTodo(id) {
-    for (var i = 0; i < this.todos.length; i++) {
-      if (this.todos[i].id == id) {
-        this.todos.splice(i, 1);
-      }
+
+  addTodo(){
+
+    var todo = {
+      text: Virama.write(this.text),
+      finished: false,
+      timeStamp: Date.now()
     }
-    // this.deleteTodoFirebase(todoText);
-    this._todoService.deleteItem(id);
+    
+    this.todoService.createTodo(todo);
+    this.text = '';
+
+  }
+
+
+  deleteTodo(id: string) {
+    this.todoService.deleteItem(id);
   }
 
   editTodo(todo) {
     this.oldTodo = { 
       id: todo.id, 
       text: Virama.read(todo.text) , 
-      finished: todo.finished 
+      finished: todo.finished,
+      timeStamp: todo.timeStamp
     };
     this.oldTodo.text = this.oldTodo.text;
     this.appState = 'edit';
   }
 
-  updateTodo(oldTodo) {
-  
-    for (var i = 0; i < this.todos.length; i++) {
-      if (this.todos[i].id == oldTodo.id) {
-        this.todos[i].text = Virama.write(oldTodo.text);
-      }
-    }
-    this._todoService.update(oldTodo);
-    this.oldTodo = { id: 0, text: '', finished: false };
+  updateTodo(todo) {
+    todo.text = Virama.write(todo.text);
+    this.todoService.update(todo);
+    this.oldTodo = new Todo;
     this.appState = 'default';
   }
 
   checkboxOnChanged(todo) {
-  
-    for (var i = 0; i < this.todos.length; i++) {
-      if (this.todos[i].id == todo.id) {
-        this.todos[i].finished = todo.finished;
-      }
-    }
-    this._todoService.update(todo);
-
+    this.todoService.update(todo);
   }
 
 

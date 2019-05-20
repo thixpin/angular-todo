@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Todo } from 'src/app/model/todo.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodosService {
 
-  constructor() { 
+  constructor(
+    private firestore: AngularFirestore
+  ) { 
     console.log("Todo service initializeed ...");
     //Now you are able to call the load function here with this.
-    this.load();
+    //this.load();
   }
 
   //Bunch of data to be display
@@ -61,39 +65,30 @@ export class TodosService {
 
   }
 
-  //Gets the data from the localStorage
+  
   getTodos() {
-    var todos = JSON.parse(localStorage.getItem('todos'));
-    return todos;
+    return this.firestore.collection('todos').snapshotChanges();
   }
 
-  addTodo(newTodo) {
-    var todos = JSON.parse(localStorage.getItem('todos'));
-    todos.push(newTodo);
-    localStorage.setItem('todos', JSON.stringify(todos));
+  createTodo(todo){
+    return this.firestore.collection("todos").add(todo).then(
+      res => {
+        //console.log(res._key.path.segments[1])
+      }, 
+      err => console.log(err));;
+  }
+  // addTodo(todo: Todo) {
+  //   console.log(todo);
+  //   //return this.firestore.collection('todos').add(todo);
+  // }
+
+  deleteItem(todoID: string) {
+    this.firestore.doc('todos/' + todoID).delete();
   }
 
-  deleteItem(id) {
-    var todos = JSON.parse(localStorage.getItem('todos'));
-    for (var i = 0; i < todos.length; i++) {
-      if (todos[i].id == id) {
-        todos.splice(i, 1);
-      }
-    }
-    //Set new iteem
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }
-
-  update(todo) {
-    var todos = JSON.parse(localStorage.getItem('todos'));
-
-    for (var i = 0; i < todos.length; i++) {
-      if (todos[i].id == todo.id ) {
-          todos[i] = todo;
-      }
-    }
-    //Set new iteem
-    localStorage.setItem('todos', JSON.stringify(todos));
+  update(todo: Todo) {
+    //delete todo.id;
+    this.firestore.doc('todos/' + todo.id).update(todo);
   }
 
 }
