@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {TodosService } from "../services/todos.service";
 import { Todo } from 'src/app/model/todo.model';
 
-import Virama from 'virama-js';
+import { Virama } from "virama-js";
 import { stringify } from '@angular/core/src/util';
 
 @Component({
@@ -39,7 +39,7 @@ export class TodosComponent implements OnInit {
         } as Todo;
       });
       this.todos = todos.sort(function(a, b){return b.timeStamp - a.timeStamp});
-      console.log(this.todos);
+      //console.log(this.todos);
     });
   }
 
@@ -47,7 +47,7 @@ export class TodosComponent implements OnInit {
   addTodo(){
 
     var todo = {
-      text: Virama.write(this.text),
+      text: Virama.textToWrite(this.text),
       finished: false,
       timeStamp: Date.now()
     }
@@ -65,7 +65,7 @@ export class TodosComponent implements OnInit {
   editTodo(todo) {
     this.oldTodo = { 
       id: todo.id, 
-      text: Virama.read(todo.text) , 
+      text: Virama.textToRead(todo.text) , 
       finished: todo.finished,
       timeStamp: todo.timeStamp
     };
@@ -74,7 +74,7 @@ export class TodosComponent implements OnInit {
   }
 
   updateTodo(todo) {
-    todo.text = Virama.write(todo.text);
+    todo.text = Virama.textToWrite(todo.text);
     this.todoService.update(todo);
     this.oldTodo = new Todo;
     this.appState = 'default';
